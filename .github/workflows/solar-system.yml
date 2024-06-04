@@ -8,7 +8,7 @@ on:
       - 'feature/*'
 
 env:
-  MONGO_URI: 'mongodb+srv://mongooseuser:<password>@solar-system-mongodb-cl.kgtc4pn.mongodb.net'
+  MONGO_URI: 'mongodb+srv://mongooseuser:<password>@solar-system-mongodb-cl.kgtc4pn.mongodb.net/'
   MONGO_USERNAME: ${{vars.MONGO_USERNAME}}
   MONGO_PASSWORD: ${{secrets.MONGO_PASSWORD}}
     
