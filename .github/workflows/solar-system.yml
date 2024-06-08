@@ -38,9 +38,8 @@ jobs:
       runs-on: ubuntu-latest
       steps:
         - name: Checkout
-          uses: actions/checkout@v3
-        - name: Install docker
-          uses: papodaca/install-docker-action@main
+          uses: actions/checkout@v4
+        
 
     dev-deploy:
       name: Dev Deployment
