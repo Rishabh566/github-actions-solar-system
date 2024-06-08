@@ -6,12 +6,7 @@ on:
     branches:
       - main
       - 'feature/*'
-
-env:
-  MONGO_URI: "mongodb+srv://MONGO_USERNAME:MONGO_PASSWORD@cluster0.mongodb.net/superData?retryWrites=true&w=majority"
-  MONGO_USERNAME: ${{vars.MONGO_USERNAME}}
-  MONGO_PASSWORD: ${{secrets.MONGO_PASSWORD}}
-    
+   
 jobs:
     unit-testing:
         name: Unit Testing
@@ -36,3 +31,36 @@ jobs:
           with:
             name: Mocha-Test-Result
             path: test-results.xml
+
+    
+    docker:
+      name: docker setup
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v3
+        - name: Install docker
+          uses: papodaca/install-docker-action@main
+
+    dev-deploy:
+      name: Dev Deployment
+      runs-on: ubuntu-latest
+      needs: docker
+      steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      
+      - name: Install Kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: v1.26.0
+      
+      - name: set kube context
+        uses: azure/k8s-set-context@v3
+        with:
+            method: kubeconfig
+            kubeconfig: '${{ secrets.KUBECONFIG }}'
+      
+      - name: verify Step 2 and 3
+        run: kubectl version --short -o yaml
+          
